@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Uber Trip Prediction</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="overlay">
+        <div class="container">
+            <h1>🚖 Uber Trip Prediction</h1>
+            <form action="/predict" method="post">
+                <label>Dispatching Base Number:</label>
+                <select name="dispatching_base_number" required>
+                    {% for base in dispatching_options %}
+                    <option value="{{ base }}">{{ base }}</option>
+                    {% endfor %}
+                </select>
+
+                <label>Active Vehicles:</label>
+                <input type="number" name="active_vehicles" step="any" required>
+
+                <label>Day:</label>
+                <input type="number" name="day" required>
+
+                <label>Month:</label>
+                <input type="number" name="month" required>
+
+                <label>Year:</label>
+                <input type="number" name="year" required>
+
+                <button type="submit">Predict Trips</button>
+            </form>
+
+            {% if result %}
+            <h2>Predicted Trips: {{ result }}</h2>
+            {% endif %}
+
+            <h3>Recent Predictions</h3>
+            <table>
+                <tr>
+                    <th>Base</th><th>Vehicles</th><th>Day</th><th>Month</th><th>Year</th><th>Predicted Trips</th>
+                </tr>
+                {% for record in recent_predictions %}
+                <tr>
+                    <td>{{ record.dispatching_base_number }}</td>
+                    <td>{{ record.active_vehicles }}</td>
+                    <td>{{ record.day }}</td>
+                    <td>{{ record.month }}</td>
+                    <td>{{ record.year }}</td>
+                    <td>{{ record.prediction }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <footer>© 2025 Uber Trip Prediction System</footer>
+        </div>
+    </div>
+</body>
+</html>
